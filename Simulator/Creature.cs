@@ -73,6 +73,25 @@ public class Creature
     {
         Console.WriteLine($"Hi, I'm {Name}, my level is {Level}.");
     }
+
+    public void Go(Direction direction)
+    {
+        string dir = direction.ToString();
+        Console.WriteLine($"{Name} goes {char.ToLower(dir[0])+dir.Substring(1)}.");
+    }
+    public void Go(Direction[] directions)
+    {
+        foreach (Direction direction in directions)
+        {
+            Go(direction);
+        }
+    }
+
+    public void Go(string directions)
+    {
+        Go(DirectionParser.Parse(directions));
+    }
+
     public void Upgrade()
     {
         if ( Level < 10 )
