@@ -14,28 +14,19 @@ public class Animals
         get { return description; }
         init
         {
-            description = value.Trim();
-            if (description.Length > 15)
-            {
-                description = description.Substring(0, 15).Trim();
-            }
-            if (description.Length < 3)
-            {
-                int missing = 3 - description.Length;
-                string hash = String.Concat(Enumerable.Repeat("#", missing));
-                description = $"{description}{hash}";
-            }
-            if (char.IsLower(description[0]))
-            {
-                description = char.ToUpper(description[0]) + description.Substring(1);
-            }
+            description = Validator.Shortener(value, 3, 15,'#');
         }
     }
 
-    private uint size = 3;
-    public uint Size { get; set; }
+    public uint Size { get; set; } = 3;
 
-    public string Info
+    public override string ToString()
+    {
+        string DescName = GetType().Name.ToUpper();
+        return $"{DescName}: {Info}";
+    }
+
+    public virtual string Info
     {
         get { return $"{Description} <{Size}>"; }
     }

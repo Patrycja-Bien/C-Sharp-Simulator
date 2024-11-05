@@ -14,25 +14,14 @@ public class Orc : Creature
     {
         get { return (7 * Level + 3 * Rage); }
     }
-    
+
     private int rage;
     public int Rage
     {
         get { return rage; }
         init
         {
-            if (value < 1)
-            {
-                rage = 1;
-            }
-            else if (value > 10)
-            {
-                rage = 10;
-            }
-            else
-            {
-                rage = value;
-            }
+            rage = Validator.Limiter(value, 0, 10);
         }
     }
 
@@ -55,7 +44,11 @@ public class Orc : Creature
         Console.WriteLine($"{Name} is hunting.");
     }
     public override void SayHi() => Console.WriteLine(
-    $"Hi, I'm {Name}, my level is {Level}, my rage is {Rage}."
-);
+    $"Hi, I'm {Name}, my level is {Level}, my rage is {Rage}.");
+
+    public override string Info
+    {
+        get { return $"{Name} [{Level}][{Rage}]"; }
+    }
 
 }

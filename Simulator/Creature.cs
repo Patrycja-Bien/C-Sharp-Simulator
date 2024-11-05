@@ -17,22 +17,7 @@ public abstract class Creature
         get { return name; }
         init
         {
-            name = value.Trim();
-            if (name.Length > 25)
-            {
-                name = name.Substring(0, 25).Trim();
-            }
-            if (name.Length < 3)
-            {
-                int missing = 3 - name.Length;
-                string hash = String.Concat(Enumerable.Repeat("#", missing));
-                name = $"{name}{hash}";
-            }
-            if (char.IsLower(name[0]))
-            {
-                name = char.ToUpper(name[0]) + name.Substring(1);
-            }
-
+            name = Validator.Shortener(value,3,25,'#');
         }
     }
 
@@ -42,21 +27,7 @@ public abstract class Creature
         get {  return level; }
         set
         {
-            if (level == 1)
-            {
-                if (value < 1)
-                {
-                    level = 1;
-                }
-                else if (value > 10)
-                {
-                    level = 10;
-                }
-                else
-                {
-                    level = value;
-                }
-            }
+            level = Validator.Limiter(value, 1, 10);
         }
     }
 
@@ -98,8 +69,11 @@ public abstract class Creature
             level++;
         }
     }
-    public string Info
+
+    public override string ToString()
     {
-        get { return $"{Name} [{Level}]"; }
+        string creatureName = GetType().Name.ToUpper();
+        return $"{creatureName}: {Info}";
     }
+    public abstract string Info { get; }
 }
