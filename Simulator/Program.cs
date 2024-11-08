@@ -1,4 +1,6 @@
-﻿using System.Diagnostics;
+﻿using Simulator.Maps;
+using System.Diagnostics;
+using System.Numerics;
 
 namespace Simulator;
 internal class Program
@@ -45,10 +47,49 @@ internal class Program
             var r7 = new Rectangle(0, 0, 6, 6);
 
             Console.WriteLine("\nCONTAINS METHOD TEST\n");
-            Console.WriteLine(r7.Contains(new Point(-1,-1))); 
-            Console.WriteLine(r7.Contains(new Point(6, 6)));
-            Console.WriteLine(r7.Contains(new Point(2,2)));
+            Console.WriteLine(r7.Contains(new Point(-1,-1))); //False
+            Console.WriteLine(r7.Contains(new Point(6, 6))); //True
+            Console.WriteLine(r7.Contains(new Point(2,2))); //True
             }
         Lab5a();
+        static void Lab5b()
+        {
+            Console.WriteLine("\nSMALLSQUAREMAP SIZE TEST\n");
+            try
+            {
+                var m1 = new SmallSquareMap(1);
+                Console.WriteLine("Mapa m1 utworzona poprawnie");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Błąd tworzenia mapy m1: {ex.Message}");
+            }
+            try
+            {
+                var m2 = new SmallSquareMap(10);
+                Console.WriteLine("Mapa m2 utworzona poprawnie");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Błąd tworzenia mapy m2: {ex.Message}");
+            }
+
+            Console.WriteLine("\nSMALLSQUAREMAP EXIST TEST\n");
+            var m3 = new SmallSquareMap(10);
+            Console.WriteLine(m3.Exist(new Point(2, 2))); //True
+            Console.WriteLine(m3.Exist(new Point(10, 10))); //True
+            Console.WriteLine(m3.Exist(new Point(-2, -2))); //False
+
+            Console.WriteLine("\nSMALLSQUAREMAP NEXT TEST\n");
+            Console.WriteLine(m3.Next(new Point(9, 10), Direction.Up)); //(9, 10)
+            Console.WriteLine(m3.Next(new Point(9, 10), Direction.Down)); //(9, 9)
+            Console.WriteLine(m3.Next(new Point(-1, -1), Direction.Down)); //(-1, -1)
+
+            Console.WriteLine("\nSMALLSQUAREMAP NEXTDIAGONAL TEST\n");
+            Console.WriteLine(m3.NextDiagonal(new Point(9, 10), Direction.Up)); //(9, 10)
+            Console.WriteLine(m3.NextDiagonal(new Point(9, 10), Direction.Down)); //(8, 9)
+            Console.WriteLine(m3.NextDiagonal(new Point(-1, -1), Direction.Down)); //(-1, -1)
+        }
+        Lab5b();
     }
 }

@@ -33,9 +33,9 @@ public class Rectangle
 
     public bool Contains(Point point)
     {
-        if ((point.X > X1) && (point.X < X2))
+        if ((point.X >= X1) && (point.X <= X2))
         {
-            if ((point.Y > Y1) && (point.Y < Y2))
+            if ((point.Y >= Y1) && (point.Y <= Y2))
             {
                 return true;
             }
