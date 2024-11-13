@@ -41,10 +41,9 @@ public class Orc : Creature
                 rage++;
             }
         }
-        Console.WriteLine($"{Name} is hunting.");
     }
-    public override void SayHi() => Console.WriteLine(
-    $"Hi, I'm {Name}, my level is {Level}, my rage is {Rage}.");
+    public override string Greeting() =>
+    $"Hi, I'm {Name}, my level is {Level}, my rage is {Rage}.";
 
     public override string Info
     {

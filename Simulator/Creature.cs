@@ -42,24 +42,26 @@ public abstract class Creature
     {
 
     }
-    public abstract void SayHi();
+    public abstract string Greeting();
 
-    public void Go(Direction direction)
+    public string Go(Direction direction) => $"{direction.ToString().ToLower()}";
+    //{
+    //    string dir = direction.ToString();
+    //Console.WriteLine($"{Name} goes {char.ToLower(dir[0])+dir.Substring(1)}.");
+    //}
+    public string[] Go(Direction[] directions)
     {
-        string dir = direction.ToString();
-        Console.WriteLine($"{Name} goes {char.ToLower(dir[0])+dir.Substring(1)}.");
-    }
-    public void Go(Direction[] directions)
-    {
-        foreach (Direction direction in directions)
+        var result = new string[directions.Length];
+        for (int i = 0; i<directions.Length; i++)
         {
-            Go(direction);
+            result[i] = Go(directions[i]);
         }
+        return result;
     }
 
-    public void Go(string directions)
+    public string[] Go(string directions)
     {
-        Go(DirectionParser.Parse(directions));
+        return Go(DirectionParser.Parse(directions));
     }
 
     public void Upgrade()

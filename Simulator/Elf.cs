@@ -39,11 +39,10 @@ public class Elf : Creature
                 agility++;
             }
         }
-        Console.WriteLine($"{Name} is singing.");
     }
 
-    public override void SayHi() => Console.WriteLine(
-    $"Hi, I'm {Name}, my level is {Level}, my agility is {Agility}.");
+    public override string Greeting() =>
+    $"Hi, I'm {Name}, my level is {Level}, my agility is {Agility}.";
 
     public override string Info 
     {
