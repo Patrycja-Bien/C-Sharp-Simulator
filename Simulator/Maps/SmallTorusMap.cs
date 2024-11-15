@@ -4,16 +4,16 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Simulator;
 
 namespace Simulator.Maps;
 
-public class SmallSquareMap : Map
+public class SmallTorusMap : Map
 {
     public readonly int Size;
-    
+
     private readonly Rectangle r;
-    public SmallSquareMap(int size)
+
+    public SmallTorusMap(int size)
     {
         if ((size < 5) || (size > 20))
         {
@@ -33,26 +33,19 @@ public class SmallSquareMap : Map
     public override Point Next(Point p, Direction d)
     {
         var newPoint = p.Next(d);
-        if (Exist(newPoint))
-        {
-            return newPoint;
-        }
-        else
-        {
-            return p;
-        }
+        int newX = (newPoint.X + Size) % Size;
+        int newY = (newPoint.Y + Size) % Size;
+
+        return new Point(newX, newY);
     }
+    
 
     public override Point NextDiagonal(Point p, Direction d)
     {
         var newPoint = p.NextDiagonal(d);
-        if (Exist(newPoint))
-        {
-            return newPoint;
-        }
-        else
-        {
-            return p;
-        }
+        int newX = (newPoint.X + Size) % Size;
+        int newY = (newPoint.Y + Size) % Size;
+
+        return new Point(newX, newY);
     }
 }
