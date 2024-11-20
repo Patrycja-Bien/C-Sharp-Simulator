@@ -9,7 +9,7 @@ namespace Simulator;
 
 public class DirectionParser
 {
-    public static Direction[] Parse(string dirs)
+    public static List<Direction> Parse(string dirs)
     {
         List<Direction> result = new();
         for (int i = 0; i < dirs.Length; i++)
@@ -37,6 +37,6 @@ public class DirectionParser
 
 
         }
-        return result.ToArray();
+        return result;
     }
 }
