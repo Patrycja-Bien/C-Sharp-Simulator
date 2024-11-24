@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Simulator.Maps;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -12,6 +13,21 @@ namespace Simulator;
 public abstract class Creature
 {
     private string name = "Unknown";
+    public SmallMap? Map { get; private set; }
+    public Point Position { get; private set; }
+
+    public void InitMapAndPosition(SmallMap map, Point p)
+    {
+        if (Map != null)
+            throw new InvalidOperationException($"{Name} is already assigned to a map.");
+
+        Map = map ?? throw new ArgumentNullException(nameof(map));
+        if (!map.Exist(p))
+            throw new ArgumentOutOfRangeException(nameof(p), "Position is out of bounds.");
+
+        Position = p;
+        Map.Add(p, this);
+    }
     public string Name
     {
         get { return name; }
@@ -44,26 +60,23 @@ public abstract class Creature
     }
     public abstract string Greeting();
 
-    public string Go(Direction direction) => $"{direction.ToString().ToLower()}";
-    //{
-    //    string dir = direction.ToString();
-    //Console.WriteLine($"{Name} goes {char.ToLower(dir[0])+dir.Substring(1)}.");
-    //}
-    public string[] Go(Direction[] directions)
+    public string Go(Direction direction)
     {
-        var result = new string[directions.Length];
-        for (int i = 0; i<directions.Length; i++)
+        if (Map == null)
+            throw new InvalidOperationException("The creature is not assigned to any map.");
+
+        Point nextPosition = Map.Next(Position, direction);
+
+        if (nextPosition.X == Position.X && nextPosition.Y == Position.Y)
         {
-            result[i] = Go(directions[i]);
+            return $"{Name} is already at given position.";
         }
-        return result;
-    }
 
-    public string[] Go(string directions)
-    {
-        return Go(DirectionParser.Parse(directions));
-    }
+        Map.Move(Position, nextPosition, this);
+        Position = nextPosition;                 
 
+        return $"{direction.ToString().ToLower()}";
+    }
     public void Upgrade()
     {
         if ( Level < 10 )

@@ -11,6 +11,10 @@ namespace Simulator.Maps;
 /// </summary>
 public abstract class Map
 {
+    //Add(Creature, Point)
+    //Remove(Creature, Point)
+    //Move()
+    //At(Point) albo x, y
     private readonly Rectangle r;
     protected Map(int sizeX, int sizeY)
     {
@@ -23,6 +27,7 @@ public abstract class Map
         r = new Rectangle(0,0, SizeX - 1, SizeY - 1);
 
     }
+    protected abstract List<Creature>?[,] _Fields { get; }
     public int SizeX { get; }
     public int SizeY { get; }
 
@@ -52,4 +57,54 @@ public abstract class Map
     /// <param name="d">Direction.</param>
     /// <returns>Next point.</returns>
     public abstract Point NextDiagonal(Point p, Direction d);
+
+    public void Add(Point p, Creature creature)
+    {
+        if (Exist(p))
+        {
+            _Fields[p.X, p.Y] = new List<Creature>();
+            _Fields[p.X, p.Y]?.Add(creature);
+        }
+        else
+        {
+            throw new ArgumentOutOfRangeException("Given point doesn't exist on the map");
+        }
+
+    }
+
+    public void Remove(Point p, Creature creature)
+    {
+        if (Exist(p))
+        {
+            _Fields[p.X, p.Y]?.Remove(creature);
+            if (_Fields[p.X, p.Y]?.Count == 0)
+                _Fields[p.X, p.Y] = null;
+        }
+        else
+        {
+            throw new ArgumentOutOfRangeException("Given point doesn't exist on the map");
+        }
+
+    }
+    public List<Creature> At(Point p)
+    {
+        if (Exist(p))
+        {
+            return _Fields[p.X, p.Y] ?? new List<Creature>();
+        }
+        else
+        {
+            throw new ArgumentOutOfRangeException("Given point doesn't exist on the map");
+        }
+    }
+    public List<Creature> At(int x, int y)
+    {
+        return At(new Point(x, y));
+    }
+
+    public void Move(Point oldP, Point newP, Creature creature)
+    {
+        Remove(oldP, creature);
+        Add(newP, creature);
+    }
 }

@@ -30,6 +30,7 @@ public class ValidatorTests
     [InlineData("Hi", 5, 10, '_', "Hi___")]
     [InlineData("a", 3, 10, '_', "A__")]
     [InlineData("a very long string", 5, 10, '.', "A very lon")]
+    [InlineData("A                                    B", 3, 25, '#', "A##")]
     public void Shortener_ReturnsCorrectResult(string value, int min, int max, char placeholder, string expected)
     {
         // Act
