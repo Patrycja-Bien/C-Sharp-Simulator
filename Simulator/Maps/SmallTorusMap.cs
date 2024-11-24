@@ -7,12 +7,11 @@ using System.Threading.Tasks;
 
 namespace Simulator.Maps;
 
-public class SmallTorusMap : Map
+public class SmallTorusMap : SmallMap
 {
     public SmallTorusMap(int sizeX, int sizeY) : base(sizeX, sizeY)
     {
     }
-
     public override Point Next(Point p, Direction d)
     {
         var newPoint = p.Next(d);
@@ -21,8 +20,6 @@ public class SmallTorusMap : Map
 
         return new Point(newX, newY);
     }
-    
-
     public override Point NextDiagonal(Point p, Direction d)
     {
         var newPoint = p.NextDiagonal(d);

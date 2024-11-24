@@ -11,6 +11,10 @@ namespace Simulator.Maps;
 /// </summary>
 public abstract class Map
 {
+    //Add(Creature, Point)
+    //Remove(Creature, Point)
+    //Move()
+    //At(Point) albo x, y
     private readonly Rectangle r;
     protected Map(int sizeX, int sizeY)
     {
@@ -52,4 +56,5 @@ public abstract class Map
     /// <param name="d">Direction.</param>
     /// <returns>Next point.</returns>
     public abstract Point NextDiagonal(Point p, Direction d);
+
 }

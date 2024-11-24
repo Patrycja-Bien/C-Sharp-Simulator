@@ -50,12 +50,12 @@ namespace TestSimulator;
         }
 
         [Theory]
-        [InlineData(2, 2, true)] 
-        [InlineData(5, 6, true)]  
-        [InlineData(7, 10, false)] 
-        [InlineData(3, 5, true)] 
-        [InlineData(1, 5, false)] 
-        [InlineData(5, 10, false)] 
+        [InlineData(5, 9, true)]    
+        [InlineData(0, 0, false)] 
+        [InlineData(20, 20, false)]  
+        [InlineData(7, 11, false)] 
+        [InlineData(3, 6, true)] 
+        [InlineData(0, 5, false)] 
         public void Rectangle_Contains_ReturnsCorrectResult(int x, int y, bool expected)
         {
             // Arrange
