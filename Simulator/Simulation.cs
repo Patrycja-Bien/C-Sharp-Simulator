@@ -1,5 +1,6 @@
 ﻿using Simulator.Maps;
-namespace Simulator;
+using Simulator;
+
 public class Simulation
 {
     /// <summary>
@@ -34,14 +35,7 @@ public class Simulation
     /// <summary>
     /// Creature which will be moving current turn.
     /// </summary>
-    public Creature CurrentCreature
-    {
-        get
-        {
-            int turnIndex = Moves.Length % Creatures.Count;
-            return Creatures[turnIndex];
-        }
-    }
+    public Creature CurrentCreature => Creatures[turn % Creatures.Count];
 
     /// <summary>
     /// Lowercase name of direction which will be used in current turn.
@@ -50,14 +44,14 @@ public class Simulation
     {
         get
         {
-            if (Moves.Length != 0)
-            {
-                return Moves[0].ToString().ToLower();
-            }
-            return string.Empty;
-            
+            char moveChar = Moves[turn % Moves.Length];
+            Direction direction = DirectionParser.Parse(moveChar.ToString()).FirstOrDefault();
+
+            return DirectionParser.GetDirectionName(direction).ToLower();
         }
     }
+
+    private int turn = 0;
 
     /// <summary>
     /// Simulation constructor.
@@ -66,23 +60,24 @@ public class Simulation
     /// if number of creatures differs from 
     /// number of starting positions.
     /// </summary>
+
     public Simulation(Map map, List<Creature> creatures,
-        List<Point> positions, string moves)
+            List<Point> positions, string moves)
     {
-        if (creatures == null || creatures.Count == 0)
-        {
-            throw new ArgumentException("List of creatures is empty.");
-        }
+        if (creatures.Count == 0)
+            throw new ArgumentException("The creatures list cannot be empty.");
 
         if (creatures.Count != positions.Count)
-        {
-            throw new ArgumentException("Number of creatures don't match the number of positions.");
-        }
+            throw new ArgumentException("The number of creatures must match the number of starting positions.");
 
-        Map = map ?? throw new ArgumentNullException(nameof(map));
+        if (positions.Distinct().Count() != positions.Count)
+            throw new ArgumentException("The positions list contains duplicate positions.");
+
+        Map = map;
         Creatures = creatures;
         Positions = positions;
-        Moves = moves ?? throw new ArgumentNullException(nameof(moves));
+        Moves = moves;
+
         for (int i = 0; i < creatures.Count; i++)
         {
             var creature = creatures[i];
@@ -90,13 +85,13 @@ public class Simulation
 
             if (!map.Exist(position))
             {
-                throw new ArgumentOutOfRangeException($"Position is outside of the map.");
+                throw new ArgumentException($"Position {position} is outside the bounds of the map.");
             }
             creature.InitMapAndPosition(map, position);
-
             map.Add(position, creature);
         }
     }
+
 
     /// <summary>
     /// Makes one move of current creature in current direction.
@@ -106,7 +101,7 @@ public class Simulation
     {
         if (Finished)
         {
-            throw new InvalidOperationException("The simulation is finished.");
+            throw new InvalidOperationException("The simulation is already finished.");
         }
 
         if (Moves.Length == 0)
@@ -115,20 +110,18 @@ public class Simulation
             return;
         }
 
-        char currentMove = Moves[0];
-        Moves = Moves.Substring(1);
-
+        char currentMove = Moves[turn];
         var directions = DirectionParser.Parse(currentMove.ToString());
-        if (directions.Count == 0)
+
+        if (directions != null && directions.Count > 0)
         {
-            return;
+            var direction = directions[0];
+            CurrentCreature.Go(direction);
         }
 
-        Direction direction = directions[0];
+        turn++;
 
-        CurrentCreature.Go(direction);
-
-        if (Moves.Length == 0)
+        if (turn >= Moves.Length)
         {
             Finished = true;
         }

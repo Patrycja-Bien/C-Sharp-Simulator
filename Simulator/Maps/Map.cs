@@ -30,6 +30,8 @@ public abstract class Map
     public int SizeX { get; }
     public int SizeY { get; }
 
+    protected abstract List<Creature>?[,] Fields { get; }
+
     /// <summary>
     /// Check if given point belongs to the map.
     /// </summary>
@@ -61,41 +63,54 @@ public abstract class Map
     {
         if (Exist(p))
         {
-            _Fields[p.X, p.Y] = new List<Creature>();
-            _Fields[p.X, p.Y]?.Add(creature);
+            if (Fields[p.X, p.Y] == null)
+            {
+                Fields[p.X, p.Y] = new List<Creature>();
+            }
+
+            if (!Fields[p.X, p.Y].Contains(creature))
+            {
+                Fields[p.X, p.Y].Add(creature);
+            }
         }
         else
         {
             throw new ArgumentOutOfRangeException("Given point doesn't exist on the map");
         }
-
     }
 
     public void Remove(Point p, Creature creature)
     {
         if (Exist(p))
         {
-            _Fields[p.X, p.Y]?.Remove(creature);
-            if (_Fields[p.X, p.Y]?.Count == 0)
-                _Fields[p.X, p.Y] = null;
+            if (Fields[p.X, p.Y] != null)
+            {
+                Fields[p.X, p.Y]?.Remove(creature);
+                if (Fields[p.X, p.Y]?.Count == 0)
+                {
+                    Fields[p.X, p.Y] = null;
+                }
+            }
         }
         else
         {
             throw new ArgumentOutOfRangeException("Given point doesn't exist on the map");
         }
-
     }
     public List<Creature> At(Point p)
-    {
-        if (Exist(p))
+    { 
+        var creaturesAtPoint = new List<Creature>();
+
+        var creatures = Fields[p.X, p.Y];
+        if (creatures != null)
         {
-            return _Fields[p.X, p.Y] ?? new List<Creature>();
+            creaturesAtPoint.AddRange(creatures);
         }
-        else
-        {
-            throw new ArgumentOutOfRangeException("Given point doesn't exist on the map");
-        }
+
+        return creaturesAtPoint;
     }
+
+
     public List<Creature> At(int x, int y)
     {
         return At(new Point(x, y));

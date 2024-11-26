@@ -13,10 +13,10 @@ namespace Simulator;
 public abstract class Creature
 {
     private string name = "Unknown";
-    public SmallMap? Map { get; private set; }
+    public Map? Map { get; private set; }
     public Point Position { get; private set; }
 
-    public void InitMapAndPosition(SmallMap map, Point p)
+    public void InitMapAndPosition(Map map, Point p)
     {
         if (Map != null)
             throw new InvalidOperationException($"{Name} is already assigned to a map.");
@@ -69,11 +69,10 @@ public abstract class Creature
 
         if (nextPosition.X == Position.X && nextPosition.Y == Position.Y)
         {
-            return $"{Name} is already at given position.";
+            return $"{Name} is already at the given position.";
         }
-
         Map.Move(Position, nextPosition, this);
-        Position = nextPosition;                 
+        Position = nextPosition;
 
         return $"{direction.ToString().ToLower()}";
     }
