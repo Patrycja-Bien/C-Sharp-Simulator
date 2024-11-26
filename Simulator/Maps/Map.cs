@@ -27,7 +27,6 @@ public abstract class Map
         r = new Rectangle(0,0, SizeX - 1, SizeY - 1);
 
     }
-    protected abstract List<Creature>?[,] _Fields { get; }
     public int SizeX { get; }
     public int SizeY { get; }
 
