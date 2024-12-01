@@ -39,22 +39,19 @@ public class MapVisualizer
             Console.Write(Box.Vertical);
             for (int x = 0; x < sizeX; x++)
             {
-                var creatures_on_point = _map.At(new Point(x, y));
-                if (creatures_on_point == null || creatures_on_point.Count() == 0)
-                {
-                    Console.Write(' ');
-                }
-                else if (creatures_on_point.Count() > 1)
+                var mappables_op_point = _map.At(new Point(x, y));
+                if (mappables_op_point.Count > 1)
                 {
                     Console.Write('X');
                 }
-                else if (creatures_on_point.Count() == 1 && creatures_on_point[0] is Elf)
+                else if (mappables_op_point.Count == 1)
                 {
-                    Console.Write('E');
+                    var mappable = mappables_op_point.First();
+                    Console.Write(mappable.Symbol);
                 }
                 else
                 {
-                    Console.Write('O');
+                    Console.Write(' ');
                 }
 
                 if (x < sizeX - 1)

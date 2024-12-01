@@ -34,13 +34,7 @@ public class DirectionParser
             {
                 continue;
             }
-
-
         }
         return result;
-    }
-    public static string GetDirectionName(Direction direction)
-    {
-        return direction.ToString();
     }
 }

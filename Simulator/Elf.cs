@@ -9,7 +9,7 @@ namespace Simulator;
 public class Elf : Creature
 {
     private int singCount = 0;
-
+    public override char Symbol => 'E';
     public override int Power
     {
         get { return (8 * Level + 2 * Agility); }

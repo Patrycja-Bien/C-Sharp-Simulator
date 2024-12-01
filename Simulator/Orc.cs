@@ -9,7 +9,7 @@ namespace Simulator;
 public class Orc : Creature
 {
     private int huntCount = 0;
-
+    public override char Symbol => 'O';
     public override int Power
     {
         get { return (7 * Level + 3 * Rage); }
