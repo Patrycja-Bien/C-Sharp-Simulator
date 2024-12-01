@@ -11,10 +11,7 @@ namespace Simulator.Maps;
 /// </summary>
 public abstract class Map
 {
-    //Add(Creature, Point)
-    //Remove(Creature, Point)
-    //Move()
-    //At(Point) albo x, y
+
     private readonly Rectangle r;
     protected Map(int sizeX, int sizeY)
     {
@@ -29,8 +26,6 @@ public abstract class Map
     }
     public int SizeX { get; }
     public int SizeY { get; }
-
-    protected abstract List<Creature>?[,] Fields { get; }
 
     /// <summary>
     /// Check if given point belongs to the map.
@@ -58,67 +53,9 @@ public abstract class Map
     /// <param name="d">Direction.</param>
     /// <returns>Next point.</returns>
     public abstract Point NextDiagonal(Point p, Direction d);
-
-    public void Add(Point p, Creature creature)
-    {
-        if (Exist(p))
-        {
-            if (Fields[p.X, p.Y] == null)
-            {
-                Fields[p.X, p.Y] = new List<Creature>();
-            }
-
-            if (!Fields[p.X, p.Y].Contains(creature))
-            {
-                Fields[p.X, p.Y].Add(creature);
-            }
-        }
-        else
-        {
-            throw new ArgumentOutOfRangeException("Given point doesn't exist on the map");
-        }
-    }
-
-    public void Remove(Point p, Creature creature)
-    {
-        if (Exist(p))
-        {
-            if (Fields[p.X, p.Y] != null)
-            {
-                Fields[p.X, p.Y]?.Remove(creature);
-                if (Fields[p.X, p.Y]?.Count == 0)
-                {
-                    Fields[p.X, p.Y] = null;
-                }
-            }
-        }
-        else
-        {
-            throw new ArgumentOutOfRangeException("Given point doesn't exist on the map");
-        }
-    }
-    public List<Creature> At(Point p)
-    { 
-        var creaturesAtPoint = new List<Creature>();
-
-        var creatures = Fields[p.X, p.Y];
-        if (creatures != null)
-        {
-            creaturesAtPoint.AddRange(creatures);
-        }
-
-        return creaturesAtPoint;
-    }
-
-
-    public List<Creature> At(int x, int y)
-    {
-        return At(new Point(x, y));
-    }
-
-    public void Move(Point oldP, Point newP, Creature creature)
-    {
-        Remove(oldP, creature);
-        Add(newP, creature);
-    }
+    public abstract void Add(Point p, IMappable creature);
+    public abstract void Remove(Point p, IMappable mappable);
+    public abstract List<IMappable> At(Point p);
+    public abstract List<IMappable> At(int x, int y);
+    public abstract void Move(Point oldP, Point newP, IMappable mappable);
 }

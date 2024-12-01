@@ -10,6 +10,15 @@ public class Birds: Animals
 {
     public bool CanFly { get; set; } = true;
 
+    public override char Symbol
+    {
+        get
+        {
+            return CanFly ? 'B' : 'b';
+        }
+    }
+
+
     public override string Info
     {
         get
