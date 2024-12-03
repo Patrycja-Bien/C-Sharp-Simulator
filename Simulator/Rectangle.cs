@@ -19,7 +19,7 @@ public class Rectangle
     {
         if ((x1 == x2) || (y1 == y2))
         {
-            throw new ArgumentException("Punkty nie mogą być współliniowe");
+            throw new ArgumentException("Points can't be narrow");
         }
         X1 = (x1 < x2) ? x1 : x2;
         X2 = (x1 < x2) ? x2 : x1;

@@ -14,11 +14,6 @@ public class Program
     {
         Console.OutputEncoding = Encoding.UTF8;
 
-        //SmallSquareMap map = new(5);
-        //List<IMappable> mappables = new() { new Orc("Gorbag"), new Elf("Elandor") };
-        //List<Point> points = new() { new(2, 2), new(3, 1) };
-        //string moves = "dlrludl";
-
         SmallTorusMap map = new(6, 8);
         List<IMappable> mappables = new() 
         { 

@@ -1,12 +1,7 @@
 ﻿using Simulator.Maps;
 using Simulator;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
-namespace SimConsole;
 public class MapVisualizer
 {
     private readonly Map _map;
@@ -22,71 +17,67 @@ public class MapVisualizer
 
         int sizeX = _map.SizeX;
         int sizeY = _map.SizeY;
+        StringBuilder mapRepresentation = new StringBuilder();
 
-        Console.Write(Box.TopLeft);
-        for (int x = 0; x < sizeX; x++)
-        {
-            Console.Write(Box.Horizontal);
-            if (x < sizeX - 1)
-            {
-                Console.Write(Box.TopMid);
-            }
-        }
-        Console.WriteLine(Box.TopRight);
+        AppendBorder(mapRepresentation, Box.TopLeft, Box.TopMid, Box.TopRight, sizeX);
 
         for (int y = sizeY - 1; y >= 0; y--)
         {
-            Console.Write(Box.Vertical);
-            for (int x = 0; x < sizeX; x++)
-            {
-                var mappables_op_point = _map.At(new Point(x, y));
-                if (mappables_op_point.Count > 1)
-                {
-                    Console.Write('X');
-                }
-                else if (mappables_op_point.Count == 1)
-                {
-                    var mappable = mappables_op_point.First();
-                    Console.Write(mappable.Symbol);
-                }
-                else
-                {
-                    Console.Write(' ');
-                }
-
-                if (x < sizeX - 1)
-                {
-                    Console.Write(Box.Vertical);
-                }
-            }
-            Console.WriteLine(Box.Vertical);
+            AppendRow(mapRepresentation, Box.Vertical, Box.Vertical, sizeX, y);
 
             if (y > 0)
             {
-                Console.Write(Box.MidLeft);
-                for (int x = 0; x < sizeX; x++)
-                {
-                    Console.Write(Box.Horizontal);
-                    if (x < sizeX - 1)
-                    {
-                        Console.Write(Box.Cross);
-                    }
-                }
-                Console.WriteLine(Box.MidRight);
+                AppendBorder(mapRepresentation, Box.MidLeft, Box.Cross, Box.MidRight, sizeX);
             }
         }
 
-        Console.Write(Box.BottomLeft);
-        for (int x = 0; x < sizeX; x++)
-        {
-            Console.Write(Box.Horizontal);
-            if (x < sizeX - 1)
-            {
-                Console.Write(Box.BottomMid);
-            }
-        }
-        Console.WriteLine(Box.BottomRight);
+        AppendBorder(mapRepresentation, Box.BottomLeft, Box.BottomMid, Box.BottomRight, sizeX);
+
+        Console.Write(mapRepresentation.ToString());
     }
 
-}
+    private void AppendRow(StringBuilder sb, char verticalSymbol, char horizontalSymbol, int sizeX, int y)
+    {
+        sb.Append(verticalSymbol);
 
+        for (int x = 0; x < sizeX; x++)
+        {
+            var mappablesAtPoint = _map.At(new Point(x, y));
+
+            if (mappablesAtPoint.Count > 1)
+            {
+                sb.Append('X');
+            }
+            else if (mappablesAtPoint.Count == 1)
+            {
+                var mappable = mappablesAtPoint.First();
+                sb.Append(mappable.Symbol);
+            }
+            else
+            {
+                sb.Append(' ');
+            }
+
+            if (x < sizeX - 1)
+            {
+                sb.Append(horizontalSymbol);
+            }
+        }
+
+        sb.AppendLine(verticalSymbol.ToString());
+    }
+
+    private void AppendBorder(StringBuilder sb, char left, char mid, char right, int sizeX)
+    {
+        sb.Append(left);
+        for (int x = 0; x < sizeX; x++)
+        {
+            sb.Append(Box.Horizontal);
+            if (x < sizeX - 1)
+            {
+                sb.Append(mid);
+            }
+        }
+        sb.AppendLine(right.ToString());
+    }
+}

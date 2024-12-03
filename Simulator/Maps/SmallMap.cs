@@ -26,9 +26,9 @@ public abstract class SmallMap : Map
             {
                 fields[p.X, p.Y] = new List<IMappable>();
             }
-            if (!fields[p.X, p.Y].Contains(mappable))
+            if (!fields[p.X, p.Y]!.Contains(mappable))
             {
-                fields[p.X, p.Y].Add(mappable);
+                fields[p.X, p.Y]!.Add(mappable);
             }
         }
         else
@@ -36,6 +36,7 @@ public abstract class SmallMap : Map
             throw new ArgumentOutOfRangeException("Given point doesn't exist on the map");
         }
     }
+
 
     public override void Remove(Point p, IMappable mappable)
     {
