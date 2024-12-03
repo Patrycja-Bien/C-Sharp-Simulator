@@ -14,18 +14,24 @@ public class Program
     {
         Console.OutputEncoding = Encoding.UTF8;
 
-        SmallSquareMap map = new(5);
-        List<IMappable> mappables = new() { new Orc("Gorbag"), new Elf("Elandor") };
-        List<Point> points = new() { new(2, 2), new(3, 1) };
-        string moves = "dlrludl";
-
-        //SmallTorusMap map = new(6, 8);
-        //List<IMappable> mappables = new() { new Orc("Gorbag"), new Elf("Elandor"), new Animals("Strusie") };
+        //SmallSquareMap map = new(5);
+        //List<IMappable> mappables = new() { new Orc("Gorbag"), new Elf("Elandor") };
         //List<Point> points = new() { new(2, 2), new(3, 1) };
         //string moves = "dlrludl";
+
+        SmallTorusMap map = new(6, 8);
+        List<IMappable> mappables = new() 
+        { 
+            new Orc("Gorbag"), 
+            new Elf("Elandor"),
+            new Animals { Description = "Rabbits", Size = 10 },
+            new Birds { Description = "Eagles", Size = 5 },
+            new Birds { Description = "Ostriches", Size = 5, CanFly = false }
+        };
+        List<Point> points = new() { new(2, 2), new(3, 1), new(1,3), new(2,1), new(4,3) };
+        string moves = "dlrludlruuddlrd";
         Simulation simulation = new(map, mappables, points, moves);
         MapVisualizer mapVisualizer = new(simulation.Map);
-        //dokończyć
 
         var move = 1;
         mapVisualizer.Draw();
@@ -35,7 +41,7 @@ public class Program
             Console.ReadKey(true);
 
             Console.WriteLine($"Turn {move}");
-            Console.Write($"{simulation.CurrentMappable.Info} {simulation.CurrentMappable.Position} goes {simulation.CurrentMoveName}\n");
+            Console.Write($"{simulation.CurrentMappable.Info} - current position: {simulation.CurrentMappable.Position}, move: {simulation.CurrentMoveName}\n");
 
             Console.WriteLine();
             simulation.Turn();

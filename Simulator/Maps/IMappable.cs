@@ -20,7 +20,7 @@ public interface IMappable
 
         Point nextPosition = Map.Next(Position, direction);
 
-        if (nextPosition.X == Position.X && nextPosition.Y == Position.Y)
+        if (nextPosition.Equals(Position))
         {
             throw new InvalidOperationException("The creature is already at given point.");
         }
