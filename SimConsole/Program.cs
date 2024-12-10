@@ -1,48 +1,83 @@
-﻿using System.Drawing;
-using System.Security.Cryptography;
-using System.Text;
+﻿using Simulator.Maps;
 using Simulator;
-using Simulator.Maps;
-using Point = Simulator.Point;
+using System;
+using System.Collections.Generic;
+using System.Text;
 
-namespace SimConsole;
-
-public class Program
+namespace SimConsole
 {
-
-    static void Main(string[] args)
+    public class Program
     {
-        Console.OutputEncoding = Encoding.UTF8;
-
-        SmallTorusMap map = new(6, 8);
-        List<IMappable> mappables = new() 
-        { 
-            new Orc("Gorbag"), 
-            new Elf("Elandor"),
-            new Animals { Description = "Rabbits", Size = 10 },
-            new Birds { Description = "Eagles", Size = 5 },
-            new Birds { Description = "Ostriches", Size = 5, CanFly = false }
-        };
-        List<Point> points = new() { new(2, 2), new(3, 1), new(1,3), new(2,1), new(4,3) };
-        string moves = "dlrludlruuddlrd";
-        Simulation simulation = new(map, mappables, points, moves);
-        MapVisualizer mapVisualizer = new(simulation.Map);
-
-        var move = 1;
-        mapVisualizer.Draw();
-        while (!simulation.Finished)
+        static void Main(string[] args)
         {
-            Console.WriteLine("Press any key to proceed to the next turn...");
-            Console.ReadKey(true);
+            Console.OutputEncoding = Encoding.UTF8;
 
-            Console.WriteLine($"Turn {move}");
-            Console.Write($"{simulation.CurrentMappable.Info} - current position: {simulation.CurrentMappable.Position}, move: {simulation.CurrentMoveName}\n");
+            BigBounceMap map = new(6, 8);
+            List<IMappable> mappables = new()
+            {
+                new Orc("Gorbag"),
+                new Elf("Elandor"),
+                new Animals { Description = "Rabbits", Size = 10 },
+                new Birds { Description = "Eagles", Size = 5 },
+                new Birds { Description = "Ostriches", Size = 5, CanFly = false }
+            };
+            List<Point> points = new()
+            {
+                new(5, 7),
+                new(5, 0),
+                new(0, 7),
+                new(5, 4),
+                new(0, 0)
+            };
 
-            Console.WriteLine();
-            simulation.Turn();
+            string moves = "uruldrdlldldrruduldd";
+            Simulation simulation = new(map, mappables, points, moves);
+            MapVisualizer mapVisualizer = new(simulation.Map);
+            SimulationHistory simulationHistory = new(simulation);
+
+            int turn = 1;
+
+            simulationHistory.RecordTurn();
             mapVisualizer.Draw();
-            move++;
 
+            while (!simulation.Finished)
+            {
+                Console.Clear();
+                Console.WriteLine($"Turn {turn}");
+                Console.WriteLine($"{simulation.CurrentMappable.Info} - current position: {simulation.CurrentMappable.Position}, move: {simulation.CurrentMoveName}");
+                mapVisualizer.Draw();
+
+                Console.WriteLine("\nPress any key to continue to the next turn...");
+                Console.ReadKey();
+
+                simulation.Turn();
+                simulationHistory.RecordTurn();
+
+                turn++;
+            }
+
+            Console.Clear();
+            Console.WriteLine("Simulation Finished.replaying turns.");
+            simulationHistory.ReplayTurn(5);
+            simulationHistory.ReplayTurn(10);
+            simulationHistory.ReplayTurn(15);
+            simulationHistory.ReplayTurn(20);
+            Console.WriteLine("\nYou can replay specific turns.");
+            while (true)
+            {
+                Console.WriteLine("Enter a turn number to replay (or type anything else to quit): ");
+                string input = Console.ReadLine();
+
+                if (int.TryParse(input, out int turnNumber))
+                {
+                    Console.Clear();
+                    simulationHistory.ReplayTurn(turnNumber);
+                }
+                else
+                {
+                    break;
+                }
+            }
         }
     }
 }

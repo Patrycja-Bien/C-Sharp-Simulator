@@ -31,8 +31,23 @@ public class Birds: Animals
 
         if (CanFly)
         {
-            nextPosition = Map.Next(Position, direction);
-            nextPosition = Map.Next(nextPosition, direction);
+            Point firstStep = Map.Next(Position, direction);
+            Point secondStep = Map.Next(firstStep, direction);
+
+            if (!Map.Exist(firstStep))
+            {
+                nextPosition = Position;
+                nextPosition = Map.Next(nextPosition, Opposite(direction));
+                nextPosition = Map.Next(nextPosition, Opposite(direction));
+            }
+            else if (!Map.Exist(secondStep))
+            {
+                nextPosition = Map.Next(firstStep, Opposite(direction));
+            }
+            else
+            {
+                nextPosition = secondStep;
+            }
         }
         else
         {
@@ -41,10 +56,24 @@ public class Birds: Animals
 
         if (nextPosition.Equals(Position))
         {
-            throw new InvalidOperationException("The creature is already at given point.");
+            throw new InvalidOperationException("The creature is already at the given point.");
         }
+
         Map.Move(Position, nextPosition, this);
         Position = nextPosition;
     }
+
+    private Direction Opposite(Direction direction)
+    {
+        return direction switch
+        {
+            Direction.Left => Direction.Right,
+            Direction.Right => Direction.Left,
+            Direction.Up => Direction.Down,
+            Direction.Down => Direction.Up,
+            _ => throw new ArgumentException("Invalid direction")
+        };
+    }
+
 }
 
