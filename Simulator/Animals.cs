@@ -43,7 +43,7 @@ public class Animals : IMappable
         {
             throw new InvalidOperationException("The creature is already at given point.");
         }
-        Map.Move(Position, nextPosition, this);
+        Map.Move(this, Position, nextPosition);
         Position = nextPosition;
     }
 }

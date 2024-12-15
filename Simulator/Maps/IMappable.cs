@@ -12,6 +12,7 @@ public interface IMappable
     Map? Map { get; set; }
     Point Position { get; set; }
     abstract char Symbol { get; }
+    public string ToString();
     string Info { get; }
     virtual void Go(Direction direction)
     {
@@ -24,7 +25,7 @@ public interface IMappable
         {
             throw new InvalidOperationException("The creature is already at given point.");
         }
-        Map.Move(Position, nextPosition, this);
+        Map.Move(this, Position, nextPosition);
         Position = nextPosition;
     }
     virtual void InitMapAndPosition(Map map, Point p)
@@ -38,6 +39,6 @@ public interface IMappable
             throw new ArgumentOutOfRangeException(nameof(p), "Position is out of bounds.");
 
         Position = p;
-        Map.Add(p, this);
+        Map.Add(this, p);
     }
 }

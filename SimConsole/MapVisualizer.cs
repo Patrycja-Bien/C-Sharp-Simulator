@@ -33,8 +33,10 @@ public class MapVisualizer
 
         AppendBorder(mapRepresentation, Box.BottomLeft, Box.BottomMid, Box.BottomRight, sizeX);
 
+        Console.WriteLine("Map State:");
         Console.Write(mapRepresentation.ToString());
     }
+
 
     private void AppendRow(StringBuilder sb, char verticalSymbol, char horizontalSymbol, int sizeX, int y)
     {

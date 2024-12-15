@@ -59,7 +59,7 @@ public class Birds: Animals
             throw new InvalidOperationException("The creature is already at the given point.");
         }
 
-        Map.Move(Position, nextPosition, this);
+        Map.Move(this, Position, nextPosition);
         Position = nextPosition;
     }
 
