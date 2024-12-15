@@ -12,6 +12,7 @@ public interface IMappable
     Map? Map { get; set; }
     Point Position { get; set; }
     abstract char Symbol { get; }
+    public string ToString();
     string Info { get; }
     virtual void Go(Direction direction)
     {

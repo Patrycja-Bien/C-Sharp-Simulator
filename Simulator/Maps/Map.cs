@@ -11,6 +11,7 @@ namespace Simulator.Maps;
 /// </summary>
 public abstract class Map
 {
+    private Dictionary<Point, List<IMappable>> fields;
 
     private readonly Rectangle r;
     protected Map(int sizeX, int sizeY)
@@ -22,7 +23,7 @@ public abstract class Map
         SizeX = sizeX;
         SizeY = sizeY;
         r = new Rectangle(0,0, SizeX - 1, SizeY - 1);
-
+        fields = new Dictionary<Point, List<IMappable>>();
     }
     public int SizeX { get; }
     public int SizeY { get; }
@@ -43,7 +44,18 @@ public abstract class Map
     /// <param name="p">Starting point.</param>
     /// <param name="d">Direction.</param>
     /// <returns>Next point.</returns>
-    public abstract Point Next(Point p, Direction d);
+    public virtual Point Next(Point p, Direction d)
+    {
+        var newPoint = p.Next(d);
+        if (Exist(newPoint))
+        {
+            return newPoint;
+        }
+        else
+        {
+            return p;
+        }
+    }
 
     /// <summary>
     /// Next diagonal position to the point in a given direction 
@@ -52,10 +64,67 @@ public abstract class Map
     /// <param name="p">Starting point.</param>
     /// <param name="d">Direction.</param>
     /// <returns>Next point.</returns>
-    public abstract Point NextDiagonal(Point p, Direction d);
-    public abstract void Add(Point p, IMappable mappable);
-    public abstract void Remove(Point p, IMappable mappable);
-    public abstract List<IMappable> At(Point p);
-    public abstract List<IMappable> At(int x, int y);
-    public abstract void Move(Point oldP, Point newP, IMappable mappable);
+    public virtual Point NextDiagonal(Point p, Direction d)
+    {
+        var newPoint = p.NextDiagonal(d);
+        if (Exist(newPoint))
+        {
+            return newPoint;
+        }
+        else
+        {
+            return p;
+        }
+    }
+    public virtual void Add(Point p, IMappable mappable)
+    {
+        if (Exist(p))
+        {
+            if (!fields.ContainsKey(p))
+            {
+                fields[p] = new List<IMappable>();
+            }
+
+            fields[p].Add(mappable);
+        }
+        else throw new ArgumentOutOfRangeException("Given point doesn't exist on the map");
+    }
+
+    public virtual void Remove(Point p, IMappable mappable)
+    {
+        if (Exist(p))
+        {
+            fields[p].Remove(mappable);
+        }
+        else throw new ArgumentOutOfRangeException("Given point doesn't exist on the map");
+    }
+
+    public virtual List<IMappable> At(Point p)
+    {
+        if (!Exist(p))
+            throw new ArgumentOutOfRangeException(nameof(p), "Point is out of bounds.");
+        if (fields.ContainsKey(p))
+        {
+            return fields[p];
+        }
+        else return new List<IMappable>();
+
+    }
+
+    public virtual List<IMappable> At(int x, int y)
+    {
+        return At(new Point(x, y));
+    }
+
+    public virtual void Move(Point oldP, Point newP, IMappable mappable)
+    {
+        if (!Exist(oldP) || !Exist(newP))
+            throw new ArgumentOutOfRangeException("Points are out of map bounds.");
+
+        if (fields[oldP].Contains(mappable) != true)
+            throw new InvalidOperationException("Mappable does not exist at the old position.");
+
+        Remove(oldP, mappable);
+        Add(newP, mappable);
+    }
 }
