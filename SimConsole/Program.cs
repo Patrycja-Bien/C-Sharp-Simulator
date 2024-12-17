@@ -33,51 +33,39 @@ namespace SimConsole
             string moves = "uruldrdlldldrruduldd";
             Simulation simulation = new(map, mappables, points, moves);
             MapVisualizer mapVisualizer = new(simulation.Map);
-            SimulationHistory simulationHistory = new(simulation);
+            SimulationHistory history = new(simulation);
+            LogVisualizer logVisualizer = new(history);
 
-            int turn = 1;
+            //while (!simulation.Finished)
+            //{
+            //    mapVisualizer.Draw();
+            //    Console.WriteLine("\nPress any key to make a move...");
+            //    Console.ReadKey(true);
+            //    simulation.Turn();
+            //    Console.Clear();
+            //}
+            //mapVisualizer.Draw();
+            //Console.ReadKey(true);
 
-            simulationHistory.RecordTurn();
-            mapVisualizer.Draw();
-
-            while (!simulation.Finished)
-            {
-                Console.Clear();
-                Console.WriteLine($"Turn {turn}");
-                Console.WriteLine($"{simulation.CurrentMappable.Info} - current position: {simulation.CurrentMappable.Position}, move: {simulation.CurrentMoveName}");
-                mapVisualizer.Draw();
-
-                Console.WriteLine("\nPress any key to continue to the next turn...");
-                Console.ReadKey();
-
-                simulation.Turn();
-                simulationHistory.RecordTurn();
-
-                turn++;
-            }
-
+            Console.WriteLine("Turn 1: ");
+            logVisualizer.Draw(0);
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadKey(true);
             Console.Clear();
-            Console.WriteLine("Simulation Finished.replaying turns.");
-            simulationHistory.ReplayTurn(5);
-            simulationHistory.ReplayTurn(10);
-            simulationHistory.ReplayTurn(15);
-            simulationHistory.ReplayTurn(20);
-            Console.WriteLine("\nYou can replay specific turns.");
-            while (true)
-            {
-                Console.WriteLine("Enter a turn number to replay (or type anything else to quit): ");
-                string input = Console.ReadLine();
-
-                if (int.TryParse(input, out int turnNumber))
-                {
-                    Console.Clear();
-                    simulationHistory.ReplayTurn(turnNumber);
-                }
-                else
-                {
-                    break;
-                }
-            }
+            Console.WriteLine("Turn 3: ");
+            logVisualizer.Draw(2);
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadKey(true);
+            Console.Clear();
+            Console.WriteLine("Turn 5: ");
+            logVisualizer.Draw(4);
+            Console.WriteLine("Press any key to continue...");
+            Console.ReadKey(true);
+            Console.Clear();
+            Console.WriteLine("Turn 20: ");
+            logVisualizer.Draw(19);
+            Console.WriteLine("Press any key to continue...");
         }
+
     }
 }
