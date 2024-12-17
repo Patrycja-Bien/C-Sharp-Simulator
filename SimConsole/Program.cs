@@ -46,25 +46,6 @@ namespace SimConsole
             //}
             //mapVisualizer.Draw();
             //Console.ReadKey(true);
-
-            Console.WriteLine("Turn 1: ");
-            logVisualizer.Draw(0);
-            Console.WriteLine("Press any key to continue...");
-            Console.ReadKey(true);
-            Console.Clear();
-            Console.WriteLine("Turn 3: ");
-            logVisualizer.Draw(2);
-            Console.WriteLine("Press any key to continue...");
-            Console.ReadKey(true);
-            Console.Clear();
-            Console.WriteLine("Turn 5: ");
-            logVisualizer.Draw(4);
-            Console.WriteLine("Press any key to continue...");
-            Console.ReadKey(true);
-            Console.Clear();
-            Console.WriteLine("Turn 20: ");
-            logVisualizer.Draw(19);
-            Console.WriteLine("Press any key to continue...");
         }
 
     }
