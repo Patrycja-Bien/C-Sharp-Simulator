@@ -1,73 +1,46 @@
 ﻿using Simulator;
-using Simulator.Maps;
-using System;
-using System.Collections.Generic;
-
-namespace Simulator;
 
 public class SimulationHistory
 {
-    private List<SimulationSnapshot> snapshots;
-    private Simulation simulation;
+    private Simulation _simulation { get; }
+    public int SizeX { get; }
+    public int SizeY { get; }
+    public List<SimulationTurnLog> TurnLogs { get; } = [];
+    // store starting positions at index 0
 
     public SimulationHistory(Simulation simulation)
     {
-        this.simulation = simulation;
-        snapshots = new List<SimulationSnapshot>();
+        _simulation = simulation ??
+            throw new ArgumentNullException(nameof(simulation));
+        SizeX = _simulation.Map.SizeX;
+        SizeY = _simulation.Map.SizeY;
+        Run();
     }
 
-    public void RecordTurn()
+    private void Run()
     {
-        var snapshot = new SimulationSnapshot
+        while (!_simulation.Finished)
         {
-            Move = simulation.CurrentMoveName,
-            MovedMappable = simulation.CurrentMappable
-        };
+            _simulation.Turn();
 
-        foreach (var mappable in simulation.IMappables)
-        {
-            snapshot.MappableStates.Add(new MappableState
+            var symbols = new Dictionary<Point, List<char>>();
+            foreach (var mappable in _simulation.IMappables)
             {
-                Type = mappable.GetType().Name,
-                Position = mappable.Position,
-                Info = mappable.Info
-            });
-        }
+                if (!symbols.ContainsKey(mappable.Position))
+                {
+                    symbols[mappable.Position] = new List<char>();
+                }
+                symbols[mappable.Position].Add(mappable.Symbol);
+            }
 
-        snapshots.Add(snapshot);
-    }
+            var log = new SimulationTurnLog
+            {
+                Mappable = _simulation.CurrentMappable.ToString(),
+                Move = _simulation.CurrentMoveName,
+                Symbols = symbols
+            };
 
-    public void ReplayTurn(int turnNumber)
-    {
-        if (turnNumber <= 0 || turnNumber > snapshots.Count)
-        {
-            Console.WriteLine($"Invalid turn number {turnNumber}. Valid range: 1 to {snapshots.Count}.");
-            return;
-        }
-
-        var snapshot = snapshots[turnNumber - 1];
-        Console.WriteLine($"Replaying Turn {turnNumber}:");
-        Console.WriteLine($"Move: {snapshot.MovedMappable.Info} - {snapshot.Move}");
-
-        foreach (var state in snapshot.MappableStates)
-        {
-            Console.WriteLine($"{state.Info} (Class: {state.Type}) at {state.Position}");
+            TurnLogs.Add(log);
         }
     }
-
-}
-
-public class SimulationSnapshot
-{
-    public List<MappableState> MappableStates { get; set; } = new List<MappableState>();
-    public string Move { get; set; } = string.Empty;
-    public required IMappable MovedMappable { get; set; }
-}
-
-
-public class MappableState
-{
-    public required string Type { get; set; }
-    public Point Position { get; set; }
-    public required string Info { get; set; }
 }
