@@ -12,30 +12,7 @@ public class SmallSquareMap : SmallMap
 {
     public SmallSquareMap(int size) : base(size, size)
     {
-    }
-    public override Point Next(Point p, Direction d)
-    {
-        var newPoint = p.Next(d);
-        if (Exist(newPoint))
-        {
-            return newPoint;
-        }
-        else
-        {
-            return p;
-        }
-    }
-
-    public override Point NextDiagonal(Point p, Direction d)
-    {
-        var newPoint = p.NextDiagonal(d);
-        if (Exist(newPoint))
-        {
-            return newPoint;
-        }
-        else
-        {
-            return p;
-        }
+        FNext = MoveLogic.WallNext;
+        FNextDiagonal = MoveLogic.WallNextDiagonal;
     }
 }

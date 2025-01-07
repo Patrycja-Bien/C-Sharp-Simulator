@@ -7,7 +7,11 @@ public abstract class Map
 {
     public int SizeX { get; }
     public int SizeY { get; }
+
     private Rectangle boundaries;
+
+    protected Func<Map, Point, Direction, Point>? FNext { get; set; }
+    protected Func<Map, Point, Direction, Point>? FNextDiagonal { get; set; }
 
     private Dictionary<Point, List<IMappable>> mappablesFields = new Dictionary<Point, List<IMappable>>();
     /// <summary>
@@ -20,25 +24,13 @@ public abstract class Map
         return boundaries.Contains(p);
     }
 
-
     /// <summary>
     /// Next position to the point in a given direction.
     /// </summary>
     /// <param name="p">Starting point.</param>
     /// <param name="d">Direction.</param>
     /// <returns>Next point.</returns>
-    public virtual Point Next(Point p, Direction d)
-    {
-        var newPoint = p.Next(d);
-        if (Exist(newPoint))
-        {
-            return newPoint;
-        }
-        else
-        {
-            return p;
-        }
-    }
+    public Point Next(Point p, Direction d) => FNext?.Invoke(this, p, d) ?? p;
 
     /// <summary>
     /// Next diagonal position to the point in a given direction 
@@ -47,18 +39,7 @@ public abstract class Map
     /// <param name="p">Starting point.</param>
     /// <param name="d">Direction.</param>
     /// <returns>Next point.</returns>
-    public virtual Point NextDiagonal(Point p, Direction d)
-    {
-        var newPoint = p.NextDiagonal(d);
-        if (Exist(newPoint))
-        {
-            return newPoint;
-        }
-        else
-        {
-            return p;
-        }
-    }
+    public Point NextDiagonal(Point p, Direction d) => FNextDiagonal?.Invoke(this, p, d) ?? p;
 
     public virtual void Move(IMappable mappable, Point oldPoint, Point newPoint)
     {
