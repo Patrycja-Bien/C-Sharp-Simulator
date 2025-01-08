@@ -3,13 +3,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Simulator;
 public class Elf : Creature
 {
     private int singCount = 0;
+
+    [JsonIgnore]
     public override char Symbol => 'E';
+
+    [JsonIgnore]
     public override int Power
     {
         get { return (8 * Level + 2 * Agility); }
@@ -44,6 +49,7 @@ public class Elf : Creature
     public override string Greeting() =>
     $"Hi, I'm {Name}, my level is {Level}, my agility is {Agility}.";
 
+    [JsonIgnore]
     public override string Info 
     {
         get { return $"{Name} [{Level}][{Agility}]"; }

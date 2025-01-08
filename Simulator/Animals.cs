@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 
@@ -11,6 +12,8 @@ namespace Simulator;
 public class Animals : IMappable
 {
     private string description = "Unknown";
+
+    [JsonIgnore]
     public virtual char Symbol => 'A';
     public Map? Map { get; set; }
     public Point Position { get; set; }
@@ -28,6 +31,8 @@ public class Animals : IMappable
         string DescName = GetType().Name.ToUpper();
         return $"{DescName}: {Info}";
     }
+
+    [JsonIgnore]
     public virtual string Info
     {
         get { return $"{Description} <{Size}>"; }

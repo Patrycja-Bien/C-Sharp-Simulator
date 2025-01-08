@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Simulator;
@@ -9,7 +10,11 @@ namespace Simulator;
 public class Orc : Creature
 {
     private int huntCount = 0;
+    
+    [JsonIgnore]
     public override char Symbol => 'O';
+
+    [JsonIgnore]
     public override int Power
     {
         get { return (7 * Level + 3 * Rage); }
@@ -45,6 +50,7 @@ public class Orc : Creature
     public override string Greeting() =>
     $"Hi, I'm {Name}, my level is {Level}, my rage is {Rage}.";
 
+    [JsonIgnore]
     public override string Info
     {
         get { return $"{Name} [{Level}][{Rage}]"; }

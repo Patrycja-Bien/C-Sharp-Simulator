@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Simulator;
@@ -10,8 +11,10 @@ public class Birds: Animals
 {
     public bool CanFly { get; set; } = true;
 
+    [JsonIgnore]
     public override char Symbol => CanFly ? 'B' : 'b';
 
+    [JsonIgnore]
     public override string Info
     {
         get
