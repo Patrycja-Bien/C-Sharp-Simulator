@@ -1,0 +1,65 @@
+﻿/* Główne style mapy */
+.map {
+    display: grid;
+    grid-template-columns: max-content repeat(8, 1fr); /* Kolumna na liczby rzędów i 8 kolumn mapy */
+    grid-template-rows: repeat(6, 1fr) max-content; /* 6 wierszy mapy i jeden wiersz na liczby */
+    gap: 2px; /* Odstęp między komórkami */
+    max-width: 800px;
+    max-height: 600px;
+    margin: 0 auto;
+    background-color: #eaeaea; /* Tło mapy */
+}
+
+    .map > div {
+        background-color: #ffffff; /* Tło dla komórek */
+        border: 1px solid #000000; /* Widoczny grid */
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .map > p {
+        text-align: center;
+        font-weight: bold;
+        color: #000000;
+        grid-column: 1; /* Kolumna na liczby rzędów */
+        writing-mode: vertical-rl; /* Pionowe pisanie */
+        transform: rotate(180deg); /* Odwrócenie tekstu */
+        margin: 0;
+    }
+
+    .map > span {
+        text-align: center;
+        font-weight: bold;
+        color: #000000;
+        grid-row: 7; /* Wiersz na liczby kolumn */
+    }
+
+/* Styl nagłówka mapy */
+.map-header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    font-weight: 700;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+/* Styl tekstu informacyjnego */
+.turn {
+    min-width: 11rem;
+}
+
+/* Styl przycisków */
+button {
+    min-width: 4rem;
+    min-height: 3rem;
+    font-size: 1.6rem;
+}
+
+/* Maksymalne rozmiary obrazów */
+img {
+    max-width: 4rem;
+    max-height: 4rem;
+}

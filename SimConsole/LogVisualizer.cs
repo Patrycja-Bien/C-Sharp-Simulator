@@ -1,4 +1,5 @@
 ﻿using Simulator;
+
 namespace SimConsole;
 
 public class LogVisualizer
@@ -37,13 +38,13 @@ public class LogVisualizer
             for (int x = 0; x < sizeX; x++)
             {
                 var point = new Point(x, y);
-                if (symbols.TryGetValue(point, out List<char>? symbolList))
+                if (symbols.TryGetValue(point, out List<char> symbolList))
                 {
                     if (symbolList.Count > 1)
                     {
                         Console.Write('X');
                     }
-                    else if (symbolList.Count == 1)
+                    else
                     {
                         Console.Write(symbolList[0]);
                     }

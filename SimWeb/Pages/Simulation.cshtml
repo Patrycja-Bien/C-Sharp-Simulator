@@ -1,0 +1,72 @@
+﻿@page
+@using SimWeb.Pages
+@model SimulationModel
+@{
+    ViewData["Title"] = "Simulation page";
+}
+<body>
+    <main>
+        <style>
+            .map {
+                grid-template-columns: max-content repeat(8, max-content);
+                grid-template-rows: repeat(6, 1fr) max-content;
+            }
+        </style>
+
+        <div class="map-header">
+            <form method="post" asp-page-handler="Previous">
+                <button type="submit">&larr;</button>
+                @Html.AntiForgeryToken()
+            </form>
+
+            <div class="turn">
+                Tura @Model.CurrentTurn
+            </div>
+
+            <form method="post" asp-page-handler="Next">
+                <button type="submit">&rarr;</button>
+                @Html.AntiForgeryToken()
+            </form>
+        </div>
+
+        <div class="map">
+            @for (int row = 5; row >= 0; row--)
+            {
+                <p>@row</p>
+                @foreach (var cell in Model.MapGrid[row])
+                {
+                    <div>
+                        @if (cell.Creatures != null && cell.Creatures.Any())
+                        {
+                            @Html.Raw(Model.GetImageSource(cell.Creatures))
+                        }
+                        else
+                        {
+                            <div></div>
+                            <style>
+                                .map {
+                                    display: grid;
+                                    grid-template-columns: max-content repeat(8, max-content);
+                                    grid-template-rows: repeat(6, 1fr) max-content;
+                                    max-width: 800px;
+                                    max-height: 600px;
+                                    margin: 0 auto;
+                                    border: solid 2px #000000;
+                                    gap: 5px; /* Dodaj odstępy między komórkami */
+                                    background-color: #eaeaea; /* Jasne tło dla siatki */
+                                }
+
+                            </style>
+                        }
+                    </div>
+                }
+            }
+
+            <span></span>
+            @for (int i = 0; i < 8; i++)
+            {
+                <span>@i</span>
+            }
+        </div>
+    </main>
+</body>

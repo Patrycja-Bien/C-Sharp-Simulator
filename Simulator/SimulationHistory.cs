@@ -21,7 +21,6 @@ public class SimulationHistory
     {
         while (!_simulation.Finished)
         {
-            _simulation.Turn();
 
             var symbols = new Dictionary<Point, List<char>>();
             foreach (var mappable in _simulation.IMappables)
@@ -41,6 +40,7 @@ public class SimulationHistory
             };
 
             TurnLogs.Add(log);
+            _simulation.Turn();
         }
     }
 }

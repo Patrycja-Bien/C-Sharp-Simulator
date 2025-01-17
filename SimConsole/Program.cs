@@ -31,11 +31,9 @@ namespace SimConsole
             };
 
             string moves = "uruldrdlldldrruduldd";
-            Simulation simulation = new(map, mappables, points, moves);
-            MapVisualizer mapVisualizer = new(simulation.Map);
-            SimulationHistory history = new(simulation);
-            LogVisualizer logVisualizer = new(history);
 
+            //Simulation simulation = new(map, mappables, points, moves);
+            //MapVisualizer mapVisualizer = new(simulation.Map);
             //while (!simulation.Finished)
             //{
             //    mapVisualizer.Draw();
@@ -47,24 +45,16 @@ namespace SimConsole
             //mapVisualizer.Draw();
             //Console.ReadKey(true);
 
-            Console.WriteLine("Turn 1: ");
-            logVisualizer.Draw(0);
-            Console.WriteLine("Press any key to continue...");
-            Console.ReadKey(true);
-            Console.Clear();
-            Console.WriteLine("Turn 3: ");
-            logVisualizer.Draw(2);
-            Console.WriteLine("Press any key to continue...");
-            Console.ReadKey(true);
-            Console.Clear();
-            Console.WriteLine("Turn 5: ");
-            logVisualizer.Draw(4);
-            Console.WriteLine("Press any key to continue...");
-            Console.ReadKey(true);
-            Console.Clear();
-            Console.WriteLine("Turn 20: ");
-            logVisualizer.Draw(19);
-            Console.WriteLine("Press any key to continue...");
+            Simulation simulation = new(map, mappables, points, moves);
+            SimulationHistory history = new(simulation);
+            LogVisualizer logVisualizer = new(history);
+
+            for (int i = 0; i < moves.Length; i++)
+            {
+                Console.WriteLine($"Turn: {i + 1}");
+                logVisualizer.Draw(i);
+                Console.ReadKey(true);
+            }
         }
 
     }

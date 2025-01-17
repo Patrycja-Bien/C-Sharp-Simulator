@@ -1,0 +1,64 @@
+﻿body, header h1, div, p {
+    padding: 0;
+    margin: 0;
+}
+
+html {
+    font-size: 16px;
+}
+
+body {
+    display: grid;
+    grid-template-rows: min-content 1fr min-content;
+    min-height: 100vh;
+    gap: 1rem;
+}
+
+header {
+    grid-column: 1 / -1;
+    padding: 1rem;
+    background-color: #000000;
+    color: #6ea781;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header h1 {
+    padding-right: 2rem;
+    color: #6ea781;
+}
+
+header nav {
+    display: flex;
+    gap: 1rem;
+}
+
+header nav a, header nav span {
+    margin-left: 1em;
+    font-weight: 700;
+    font-size: 1.2rem;
+}
+
+header nav a {
+    text-decoration: none;
+    color: #97e6b1;
+}
+
+header nav a:hover {
+    color: #6ea781;
+    text-decoration: underline;
+}
+
+header nav span {
+    color: #ffffff;
+}
+
+main {
+    grid-column: 1 / -1;
+    padding: 1rem;
+    background-color: #ffffff;
+    color: #000000;
+    overflow-x: auto;
+    text-align: center;
+}
