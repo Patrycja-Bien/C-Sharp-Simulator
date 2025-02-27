@@ -1,5 +1,5 @@
 # Simulator
-PP-Simulator is a C# simulation framework that models interactions of different entities (like Orcs, Elves, and Animals) on a map. The simulation allows for movement, interactions, and progression, with various map types influencing behavior. The project includes both a console-based and web-based (Razor Pages) version, along with unit tests for validation.
+C Sharp Simulator is a C# simulation framework that models interactions of different entities (like Orcs, Elves, and Animals) on a map. The simulation allows for movement, interactions, and progression, with various map types influencing behavior. The project includes both a console-based and web-based (Razor Pages) version, along with unit tests for validation.
 
 # 🏹 Features
 🏰 Simulation Logic (in Simulator project)
@@ -60,7 +60,7 @@ Visual Studio (Development)
 ## 🚀 Installation & Usage
 Clone the repository:
 
-git clone https://github.com/Patrycja-Bien/PP-Simulator.git
+git clone https://github.com/Patrycja-Bien/C-Sharp-Simulator.git
 
 cd PP-Simulator
 
