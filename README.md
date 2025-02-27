@@ -50,7 +50,7 @@ Uses xUnit (Visual Studio extension) to test core simulation logic
 ## 🛠️ Technologies Used
 C# + .NET
 
-Blazor (Web UI)
+Razor Pages (Web UI)
 
 xUnit (Unit testing)
 
