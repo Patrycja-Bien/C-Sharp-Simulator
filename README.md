@@ -39,7 +39,7 @@ LogVisualizer → Logs each turn & allows viewing past states
 Box → Generates the grid-based map for console output
 
 ## 🌍 Web Version (SimWeb project)
-Blazor-based UI for interacting with the simulation visually
+Razor Pages-based UI for interacting with the simulation visually
 
 ## 🏃 Application Runner (Runner project)
 Runs the simulation in console mode
@@ -70,6 +70,6 @@ Run the desired project:
 
 Console Mode: Run Runner
 
-Web UI: Run SimWeb (Blazor)
+Web UI: Run SimWeb (Razor Pages)
 
 Tests: Run TestSimulator
